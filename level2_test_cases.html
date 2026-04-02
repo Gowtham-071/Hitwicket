@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hitwicket Superstars - Level 2 Test Cases | Chanchala Sai Gowtham</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #1a1a2e;
+      --surface2: #22223a;
+      --border: rgba(255, 255, 255, 0.07);
+      --accent: #6c63ff;
+      --accent2: #9d8fff;
+      --gold: #f59e0b;
+      --red: #ef4444;
+      --green: #22c55e;
+      --text: #e8e8f0;
+      --muted: #8888aa;
+      --card-hover: #1e1e38;
+      --glow: rgba(108, 99, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: linear-gradient(rgba(108, 99, 255, 0.04) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(108, 99, 255, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb1 { width: 500px; height: 500px; background: rgba(108, 99, 255, 0.12); top: -100px; right: -100px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(239, 68, 68, 0.08); bottom: -50px; left: -100px; }
+    .orb3 { width: 300px; height: 300px; background: rgba(245, 158, 11, 0.08); top: 40%; left: 50%; }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .landing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(108, 99, 255, 0.15);
+      border: 1px solid rgba(108, 99, 255, 0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .page-header h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .page-header h1 span {
+      background: linear-gradient(135deg, #6c63ff, #a78bfa, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Top Navigation Pills */
+    .view-toggle {
+      display: flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .toggle-btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .toggle-btn:hover:not(.active) {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; animation: fadeUp 0.4s ease-out both; }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .kpi-title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 36px;
+      font-weight: 900;
+    }
+
+    .val-pass { color: #4ade80; }
+    .val-fail { color: #f87171; }
+    .val-total { background: linear-gradient(135deg, #6c63ff, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* Generic Charts */
+    .chart-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .chart-panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    
+    @media (max-width: 768px) {
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+
+    .analytics-grid .full-span {
+      grid-column: 1 / -1;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    /* Table Top Controls */
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 12px 20px;
+      color: var(--text);
+      font-family: inherit;
+      width: 100%;
+      max-width: 400px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #6c63ff, #a78bfa);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.5);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      box-shadow: none;
+      border-radius: 12px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-outline-danger {
+      background: transparent;
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline-danger:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #f87171;
+      transform: translateY(-2px);
+    }
+
+    /* Test Cases Table */
+    .table-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: var(--surface2);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 16px 24px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .row-clickable {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .row-clickable:hover {
+      background: var(--card-hover);
+    }
+
+    .row-id {
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap; /* Prevents TC-01 from wrapping */
+    }
+
+    .row-module {
+      font-weight: 600;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .badge-pass {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .badge-fail {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    /* Row Details */
+    .details-row {
+      display: none;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .details-row.open {
+      display: table-row;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .details-grid { grid-template-columns: 1fr; }
+    }
+
+    .detail-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .detail-box.full { grid-column: 1 / -1; }
+    .detail-box.remark { border-left: 3px solid var(--gold); }
+
+    .detail-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .detail-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c8c8e0;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      display: none; justify-content: center; align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid rgba(108, 99, 255, 0.3);
+      border-radius: 24px;
+      padding: 32px;
+      width: 100%; max-width: 600px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow);
+    }
+
+    .modal-card h3 { margin-bottom: 20px; font-size: 20px; font-weight: 800; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+    
+    .form-control {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  </style>
+</head>
+<body>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="main-container">
+    
+    <!-- Top Nav Header -->
+    <header class="page-header">
+      <div>
+        <div class="landing-badge">🏏 Assignment · Level 2</div>
+        <h1>Test Case <span>Management</span></h1>
+      </div>
+      
+      <div class="header-right view-toggle">
+        <button class="toggle-btn active" onclick="switchView('dashboard', this)">Dashboard</button>
+        <button class="toggle-btn" onclick="switchView('testcases', this)">Test Cases</button>
+        <button class="toggle-btn" onclick="switchView('analytics', this)">Analytics</button>
+      </div>
+    </header>
+
+    <!-- 📊 Dashboard View -->
+    <section id="view-dashboard" class="view-section active">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Total Tests Executed</div>
+          <div class="kpi-value val-total" id="kpi-tot">18</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Tests Passed</div>
+          <div class="kpi-value val-pass" id="kpi-pas">17</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Tests Failed</div>
+          <div class="kpi-value val-fail" id="kpi-fai">1</div>
+        </div>
+      </div>
+      
+      <div class="analytics-grid" style="grid-template-columns: 1fr;">
+        <div class="chart-panel">
+          <div class="chart-panel-title">Pass vs Fail Overview</div>
+          <div class="chart-container" style="height: 250px;">
+            <canvas id="dashSpeedometer"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🧪 Test Cases View -->
+    <section id="view-testcases" class="view-section">
+      <div class="table-header">
+        <input type="text" id="search-input" class="search-box" placeholder="Search by ID, Module, or Scenario..." onkeyup="renderTable()">
+        <div class="btn-group">
+          <button class="btn-outline-danger" onclick="openDeleteModal()">
+            - Delete Case
+          </button>
+          <button class="btn" onclick="openModal()">
+            + Add Test Case
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th width="100">ID</th>
+              <th width="160">Module</th>
+              <th>Test Scenario</th>
+              <th width="100">Status</th>
+              <th width="40"></th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Dynamically Populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 📈 Analytics View -->
+    <section id="view-analytics" class="view-section">
+      <div class="analytics-grid">
+        
+        <div class="chart-panel full-span">
+          <div class="chart-panel-title">Test Cases by Module (Pass / Fail)</div>
+          <div class="chart-container" style="height: 350px;">
+            <canvas id="analyticsBar"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-panel">
+          <div class="chart-panel-title">Module Distribution</div>
+          <div class="chart-container">
+            <canvas id="analyticsPie"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-panel">
+          <div class="chart-panel-title">Observations / Flags per Module</div>
+          <div class="chart-container">
+            <canvas id="analyticsHzBar"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Add Modal -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal-card">
+      <h3>Add New Test Case</h3>
+      <form id="add-form">
+        <div class="form-group">
+          <label>Test Case ID</label>
+          <input type="text" class="form-control" id="f-id" required placeholder="e.g. TC-19">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label>Module / Screen</label>
+            <input type="text" class="form-control" id="f-module" required placeholder="e.g. Gameplay">
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" id="f-status">
+              <option value="Pass">Pass</option>
+              <option value="Fail">Fail</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Test Scenario</label>
+          <input type="text" class="form-control" id="f-scenario" required placeholder="Describe the scenario...">
+        </div>
+        <div class="form-group">
+          <label>Expected Result</label>
+          <textarea class="form-control" id="f-expected" rows="2" required placeholder="What should happen?"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-danger" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal-card" style="max-width: 450px;">
+      <h3>Delete Test Case</h3>
+      <form id="delete-form">
+        <div class="form-group">
+          <label>Select Test Case to Remove</label>
+          <select class="form-control" id="d-id" required>
+            <!-- Options dynamically populated -->
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn" style="background: var(--surface2); box-shadow: none;" onclick="closeDeleteModal()">Cancel</button>
+          <button type="submit" class="btn btn-danger" style="color:#fff; background:#f87171;">Confirm Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // System Data mirroring Excel Sheet
+    let testCases = [
+      { id: "TC-01", module: "Home Screen", scenario: "Verify opening PvP mode from Home Screen", expected: "PvP Hub should load successfully without any lag.", status: "Pass", steps: "1. Tap on the PvP / Multiplayer mode button.", remarks: "" },
+      { id: "TC-02", module: "PvP Hub", scenario: "Verify UI elements on the PvP Hub screen", expected: "All UI elements should be visible, correctly aligned.", status: "Pass", steps: "1. Observe the UI elements (Start Match button, Trophy bar).", remarks: "The TrophyRoad collapse when game is played for long duration." },
+      { id: "TC-03", module: "Match Entry", scenario: "Verify initiating a PvP matchmaking search", expected: "Matchmaking search should start, displaying estimated time.", status: "Pass", steps: "1. Tap on the 'Play' button.\n2. Observe the matchmaking screen.", remarks: "" },
+      { id: "TC-04", module: "Match Entry", scenario: "Verify opponent pairing logic", expected: "User should be paired with an opponent of similar skill.", status: "Pass", steps: "1. Wait for an opponent to be found.", remarks: "At times the Rank match goes too high like Challenger vs Pro." },
+      { id: "TC-05", module: "Gameplay", scenario: "Verify basic gameplay interaction controls (batting/bowling)", expected: "Controls should respond immediately with no noticeable delay.", status: "Pass", steps: "1. Perform a batting or bowling action based on turn.", remarks: "No lag occurs until the opponent has left the game mid-way." },
+      { id: "TC-06", module: "Gameplay", scenario: "Verify real-time score updates during match", expected: "Scoreboard should update instantly for both players.", status: "Pass", steps: "1. Complete a delivery (score runs or take a wicket).", remarks: "" },
+      { id: "TC-07", module: "Gameplay", scenario: "Verify match completion trigger", expected: "Match should end immediately, and the final animation plays.", status: "Pass", steps: "1. Complete the final delivery of the match.", remarks: "" },
+      { id: "TC-08", module: "Result Screen", scenario: "Verify Result Screen data accuracy", expected: "Match summary, winner/loser and player stats should be accurate.", status: "Pass", steps: "1. Observe the Result Screen.", remarks: "Instead of a Graph it would be preferable to have visual stats." },
+      { id: "TC-09", module: "TrophyRoad", scenario: "Verify TrophyRoad / progression update post-match", expected: "Reputation points and TrophyRoad progress should update.", status: "Pass", steps: "1. Proceed to the TrophyRoad / progression summary.", remarks: "Until & Unless long Game time this works perfectly." },
+      { id: "TC-10", module: "Result Screen", scenario: "Verify retry / replay flow", expected: "User should be placed back into the matchmaking queue.", status: "Pass", steps: "1. Tap on the 'Play Again'.", remarks: "" },
+      { id: "TC-11", module: "PvP Hub", scenario: "Verify exit / back navigation from PvP Hub", expected: "User should be navigated back to the Home Screen.", status: "Pass", steps: "1. Tap the device's back button or the in-game back button.", remarks: "" },
+      { id: "TC-12", module: "Gameplay", scenario: "Verify 60 FPS settings during gameplay", expected: "Gameplay should run smoothly at 60 FPS without frame drops.", status: "Fail", steps: "1. Observe the framerate during batting/bowling animations.", remarks: "Its mostly stays around 30-35 FPS only." },
+      { id: "TC-13", module: "Gameplay", scenario: "Verify opponent quit / disconnect scenario", expected: "Game should detect the disconnect and declare the remaining player winner.", status: "Pass", steps: "1. Opponent forcefully closes the app or disconnects.", remarks: "The Player must keep an eye on the opponent timer." },
+      { id: "TC-14", module: "Match Entry", scenario: "Verify internet interruption during matchmaking", expected: "A network error popup should appear, and match search pauses.", status: "Pass", steps: "1. Turn off Wi-Fi/Mobile Data.", remarks: "" },
+      { id: "TC-15", module: "Gameplay", scenario: "Verify reconnect handling during gameplay", expected: "Game should pause, show a reconnecting UI, and resume properly.", status: "Pass", steps: "1. Turn off Wi-Fi/Mobile Data for 5 seconds, then turn back on.", remarks: "If the player gets back a ball would be missed." },
+      { id: "TC-16", module: "Gameplay", scenario: "Verify app minimize / resume during a match", expected: "App should resume without crashing. The game state synced.", status: "Pass", steps: "1. Minimize the app (send to background).\n2. Wait 5s, resume.", remarks: "" },
+      { id: "TC-17", module: "Gameplay", scenario: "Verify network switch (Wi-Fi to Mobile Data)", expected: "The game should handle the network transition smoothly.", status: "Pass", steps: "1. Disable Wi-Fi so the device switches to Mobile Data.", remarks: "" },
+      { id: "TC-18", module: "Gameplay", scenario: "Verify user experience / UI visibility under different screens", expected: "All critical gameplay elements must be visible.", status: "Pass", steps: "1. Observe the pitch, ball, and UI elements.", remarks: "" }
+    ];
+
+    let chartInstances = {};
+
+    // UI Logic
+    function switchView(viewId, el) {
+      document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + viewId).classList.add('active');
+      
+      document.querySelectorAll('.toggle-btn').forEach(n => n.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function toggleRow(idx) {
+      document.getElementById(`detail-${idx}`).classList.toggle('open');
+    }
+
+    // Add Modal Logic
+    function openModal() { document.getElementById('add-modal').classList.add('active'); }
+    function closeModal() { document.getElementById('add-modal').classList.remove('active'); document.getElementById('add-form').reset(); }
+    
+    document.getElementById('add-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      testCases.push({
+        id: document.getElementById('f-id').value,
+        module: document.getElementById('f-module').value,
+        scenario: document.getElementById('f-scenario').value,
+        status: document.getElementById('f-status').value,
+        expected: document.getElementById('f-expected').value,
+        steps: "Self-added flow", remarks: ""
+      });
+      closeModal();
+      renderTable();
+      updateCharts();
+    });
+
+    // Delete Modal Logic
+    function openDeleteModal() {
+      const select = document.getElementById('d-id');
+      select.innerHTML = '<option value="" disabled selected>Select an ID</option>';
+      testCases.forEach(tc => {
+        select.innerHTML += `<option value="${tc.id}">${tc.id} - ${tc.module}</option>`;
+      });
+      document.getElementById('delete-modal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('delete-modal').classList.remove('active');
+      document.getElementById('delete-form').reset();
+    }
+
+    document.getElementById('delete-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const idToRemove = document.getElementById('d-id').value;
+      if (idToRemove) {
+        testCases = testCases.filter(t => t.id !== idToRemove);
+        closeDeleteModal();
+        renderTable();
+        updateCharts();
+      }
+    });
+
+    // Render Table
+    function renderTable() {
+      const tb = document.getElementById('table-body');
+      const term = document.getElementById('search-input').value.toLowerCase();
+      tb.innerHTML = '';
+
+      testCases.forEach((tc, i) => {
+        if(!tc.id.toLowerCase().includes(term) && !tc.module.toLowerCase().includes(term) && !tc.scenario.toLowerCase().includes(term)) return;
+
+        const statClass = tc.status === 'Pass' ? 'badge-pass' : 'badge-fail';
+        
+        const tr = document.createElement('tr');
+        tr.className = 'row-clickable';
+        tr.onclick = () => toggleRow(i);
+        const remarkDot = tc.remarks ? `<span style="color: var(--gold); margin-left: 8px; font-size: 14px; cursor: help;" title="Has Remarks">⚠️</span>` : '';
+        
+        tr.innerHTML = `
+          <td class="row-id">${tc.id}</td>
+          <td class="row-module">${tc.module}</td>
+          <td>${tc.scenario}${remarkDot}</td>
+          <td><span class="status-badge ${statClass}">${tc.status}</span></td>
+          <td style="color: var(--muted); text-align: right; font-size: 12px; transition: color 0.2s;">▼</td>
+        `;
+
+        const det = document.createElement('tr');
+        det.id = `detail-${i}`;
+        det.className = 'details-row';
+        det.innerHTML = `
+          <td colspan="5" style="padding:0; border:none;">
+            <div class="details-grid">
+              <div class="detail-box">
+                <div class="detail-label">Test Steps</div>
+                <div class="detail-text">${tc.steps.replace(/\n/g, '<br>')}</div>
+              </div>
+              <div class="detail-box">
+                <div class="detail-label">Expected Result</div>
+                <div class="detail-text">${tc.expected}</div>
+              </div>
+              ${tc.remarks ? `
+              <div class="detail-box full remark">
+                <div class="detail-label">Remarks / Observations</div>
+                <div class="detail-text">${tc.remarks}</div>
+              </div>` : ''}
+            </div>
+          </td>
+        `;
+        tb.appendChild(tr); tb.appendChild(det);
+      });
+    }
+
+    // Chart.js Configuration
+    Chart.defaults.color = '#8888aa';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+
+    function getChartData() {
+      let pass = 0, fail = 0;
+      let mdls = {}, rems = {};
+
+      testCases.forEach(tc => {
+        if(tc.status === 'Pass') pass++; else fail++;
+        
+        if(!mdls[tc.module]) mdls[tc.module] = { p:0, f:0 };
+        if(tc.status === 'Pass') mdls[tc.module].p++; else mdls[tc.module].f++;
+
+        if(tc.remarks) {
+          rems[tc.module] = (rems[tc.module] || 0) + 1;
+        }
+      });
+
+      return { pass, fail, total: pass+fail, mdls, rems };
+    }
+
+    function updateCharts() {
+      const d = getChartData();
+      
+      document.getElementById('kpi-tot').innerText = d.total;
+      document.getElementById('kpi-pas').innerText = d.pass;
+      document.getElementById('kpi-fai').innerText = d.fail;
+
+      const mods = Object.keys(d.mdls);
+
+      // Dash Speedometer (Doughnut)
+      if(chartInstances.d1) chartInstances.d1.destroy();
+      const doughnutEl = document.getElementById('dashSpeedometer');
+      if (doughnutEl) {
+        chartInstances.d1 = new Chart(doughnutEl, {
+          type: 'doughnut',
+          data: {
+            labels: ['Pass', 'Fail'],
+            datasets: [{ data: [d.pass, d.fail], backgroundColor: ['#22c55e', '#ef4444'], borderWidth: 0 }]
+          },
+          options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            cutout: '60%',
+            plugins: { legend: { position: 'right' } } 
+          }
+        });
+      }
+
+      // Analytics Bar (Stacked) - Pass / Fail per Module
+      if(chartInstances.a1) chartInstances.a1.destroy();
+      const barEl = document.getElementById('analyticsBar');
+      if (barEl) {
+        chartInstances.a1 = new Chart(barEl, {
+          type: 'bar',
+          data: {
+            labels: mods,
+            datasets: [
+              { label: 'Passed', data: mods.map(m=>d.mdls[m].p), backgroundColor: '#22c55e', borderRadius: 4 },
+              { label: 'Failed', data: mods.map(m=>d.mdls[m].f), backgroundColor: '#ef4444', borderRadius: 4 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+        });
+      }
+
+      // Analytics Pie - Module Distribution
+      if(chartInstances.a2) chartInstances.a2.destroy();
+      const pieEl = document.getElementById('analyticsPie');
+      if (pieEl) {
+        chartInstances.a2 = new Chart(pieEl, {
+          type: 'pie',
+          data: {
+            labels: mods,
+            datasets: [{
+              data: mods.map(m=>d.mdls[m].p + d.mdls[m].f),
+              backgroundColor: ['#6c63ff', '#f59e0b', '#22c55e', '#ef4444', '#a78bfa', '#0ea5e9'],
+              borderWidth: 0
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'left' } } }
+        });
+      }
+
+      // Analytics Horizontal Bar - Remarks Count
+      if(chartInstances.a3) chartInstances.a3.destroy();
+      const hzBarEl = document.getElementById('analyticsHzBar');
+      if (hzBarEl) {
+        const remMods = Object.keys(d.rems);
+        chartInstances.a3 = new Chart(hzBarEl, {
+          type: 'bar',
+          data: {
+            labels: remMods,
+            datasets: [{
+              label: 'Remarks Found',
+              data: remMods.map(m=>d.rems[m]),
+              backgroundColor: '#f59e0b',
+              borderRadius: 4
+            }]
+          },
+          options: { 
+            indexAxis: 'y', 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            scales: { x: { beginAtZero: true, suggestedMax: 4 } },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+    }
+
+    // Init
+    renderTable();
+    updateCharts();
+  </script>
+</body>
+</html>
