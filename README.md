@@ -1,37 +1,47 @@
 # 🎮 Hitwicket Superstars – Game Tester Assignment
 
-This repository contains my submission for the **Hitwicket Superstars Game Tester Assignment**, covering both **bug reporting (Level 1)** and **test case design (Level 2)** along with interactive HTML dashboards for better visualization.
+> Assignment submission repository for the **Hitwicket Superstars Game Tester Role**
+
+This repository contains my submission for the **Hitwicket Superstars Game Tester Assignment**, covering both **Level 1 (Bug Reporting)** and **Level 2 (Test Case Design)**, along with interactive HTML dashboards created to make the findings more structured and reviewer-friendly.
 
 ---
 
 ## 📌 Overview
 
-The goal of this assignment was to:
+This assignment was approached from both a **player** and a **tester** perspective.
 
-* Identify and document gameplay issues
-* Analyze user experience and performance behavior
-* Design structured test cases for a core feature
-* Present findings in a clear, reviewer-friendly format
+The main objective was to:
 
-This submission combines **QA thinking + presentation clarity** to reflect both a tester and player perspective.
+* identify and document gameplay issues
+* observe UI, UX, and performance behaviour
+* design structured test cases for a core feature
+* present everything in a clear, organized, and accessible format
 
-```
+Rather than keeping the submission limited to static documents, I also built interactive HTML views to improve readability and presentation.
 
+---
 
 ## 🧪 Level 1 – Bug Report
 
-* Identified **6 issues** across gameplay, UI, performance, and system behavior
-* Included **screenshots and video evidence**
-* Covered areas like:
+Level 1 focuses on gameplay issue identification and reporting.
 
-  * Startup flow
-  * PvP progression (TrophyRoad)
-  * Device heating
-  * FPS inconsistency
-  * Notification UX
-  * Alliance chat/reconnect
+### Included:
 
-📌 Also includes a structured **Issue Tracker Sheet** for quick review.
+* **6 documented issues**
+* screenshots and video evidence
+* structured issue descriptions
+* expected vs actual behaviour
+* observations and appreciation notes
+* issue tracker sheet for quick review
+
+### Areas Covered:
+
+* Startup flow
+* PvP progression (TrophyRoad)
+* Device heating
+* FPS inconsistency
+* Notification UX
+* Alliance chat / reconnect behaviour
 
 ---
 
@@ -39,47 +49,53 @@ This submission combines **QA thinking + presentation clarity** to reflect both 
 
 **Feature Chosen:** PvP Match Flow
 
-* Designed structured test cases covering:
+Level 2 focuses on structured QA validation of a core game feature.
 
-  * Match entry & opponent pairing
-  * Gameplay interaction
-  * Result handling & progression
-  * Interrupt scenarios (disconnect, minimize, etc.)
-  * UI and performance validation
+### Test Coverage Includes:
 
-The test case sheet reflects a **real QA workflow approach**.
+* Match entry and opponent pairing
+* Gameplay interaction
+* Result handling
+* Trophy / progression update
+* Retry / replay flow
+* Disconnect / interruption handling
+* App minimize / resume scenarios
+* UI and performance validation
+
+The test case sheet was designed to reflect a practical **game QA workflow** rather than just theoretical scenarios.
 
 ---
 
 ## 🌐 Interactive HTML Dashboards
 
-To improve readability and presentation, both levels were enhanced with interactive dashboards:
+To make the submission more accessible and visually engaging, both levels were also converted into interactive dashboards.
 
 ### 🔹 Level 1 – Bug Report Dashboard
 
-* Card & table views for all bugs
-* Expandable detailed views
-* Embedded screenshots & video playback
-* Clean UI with smooth transitions
+* Landing page with issue summary
+* Card view and summary table view
+* Detailed bug pages
+* Embedded screenshots and video playback
+* Clean, dark-themed UI matching the assignment style
 
 ### 🔹 Level 2 – Test Case Dashboard
 
-* Interactive test case table
-* Expandable rows for detailed steps
-* Search & filtering functionality
+* Interactive test case management layout
+* Expandable test case rows
+* Search and filtering support
 * Add/Delete test case simulation
-* Analytics dashboard (charts & KPIs)
+* Analytics section with KPI cards and charts
 
-📌 Runs locally in browser – no setup required.
+📌 Everything runs locally in the browser — no server or setup required.
 
 ---
 
 ## 📝 Notes
 
-* All testing was performed on:
+* Testing environment used:
   **Android Device (256GB ROM / 8GB RAM)**
-* Videos are included for better clarity of issues
-* Focus was on **real gameplay experience + QA validation**
+* Video evidence is included wherever relevant
+* Focus was kept on **real gameplay behaviour, usability, and structured QA thinking**
 
 ---
 
@@ -90,8 +106,6 @@ B.Tech CSE – Final Year
 
 ---
 
-## ⭐ Final Thought
+## ⭐ Final Note
 
-This submission reflects not just issue identification, but also an effort to present QA work in a **structured, interactive, and reviewer-friendly way**.
-
----
+This submission reflects not only issue identification and test case preparation, but also an effort to present QA work in a way that is **structured, practical, and reviewer-friendly**.
